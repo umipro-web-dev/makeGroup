@@ -109,8 +109,8 @@
       </table>
     </div>
   </div>
-
   </div>
+  <AuthorDescription/>
 </template>
 
 
@@ -123,6 +123,7 @@ import { Base64 } from "js-base64";
 import getEnableMemberLength from "@/utils/getEnabledMemberLength";
 import memberTypeToArray from "@/utils/memberTypeToArray";
 import shuffleArray from "@/utils/shuffleArray";
+import AuthorDescription from "@/components/AuthorDescription.vue";
 
 const Chance = require("chance");
 
