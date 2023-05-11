@@ -13,7 +13,9 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    'no-constant-condition': 'off'
   },
   overrides: [
     {
@@ -23,6 +25,9 @@ module.exports = {
       ],
       env: {
         jest: true
+      },
+      rules: {
+          '@typescript-eslint/no-var-requires': 'off'
       }
     }
   ]
