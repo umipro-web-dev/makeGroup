@@ -2,7 +2,14 @@
   <div class="container">
   <h2 class="title mb-4 main">グループ分け</h2>
   <p class="text mb-5">公正なグループ分けに。</p>
-  <h class="title ">メンバーを追加</h>
+  <h class="title">メンバーを追加</h>
+  <div class="jsonio mt-4">
+    <label for="import" class="importLabel">
+      データを読み込む
+    <input type="file" class="import" accept="application/json" @change="importMembersData($event)" id="import">
+    </label>
+    <a href="#" class="export" download="member_data.json" @click="downloadMembersData($event)">データをダウンロードする</a>
+  </div>
   <div class="add-member mt-4">
     <div class="grade-one">
       <h4 class="mb-2">一学年</h4>
@@ -80,8 +87,8 @@
 
     <div class="makeGroupByGroupNum">
       <p>グループ数で分ける</p>
-      <input type="number" v-model="GroupNum" />
-      <button class="btn btn-primary" @click="makeGroupByGroup" @keydown.enter="makeGroupByGroup">実行</button>
+      <input type="number" v-model="GroupNum" @keydown.enter="makeGroupByGroup"/>
+      <button class="btn btn-primary" @click="makeGroupByGroup">実行</button>
       <table class="group">
         <tbody>
           <tr v-for="(i, index) in GroupByGroup" :key="index">
@@ -95,8 +102,8 @@
     </div>
     <div class="makeGroupByMemberNum">
       <p>人数で分ける</p>
-      <input type="number" v-model="memberNum" />
-      <button class="btn btn-primary" @click="makeGroupByMember" @keydown.enter="makeGroupByMember">実行</button>
+      <input type="number" v-model="memberNum" @keydown.enter="makeGroupByMember"/>
+      <button class="btn btn-primary" @click="makeGroupByMember">実行</button>
       <table class="member">
           <tbody>
           <tr v-for="(i, index) in GroupByMember" :key="index">
@@ -172,6 +179,7 @@ watchEffect(() => {
   cookies.set("members", encodedMembers, new Date(now.getFullYear() + 10, 1, 19), "/", undefined, false, "strict");
 
 });
+
 
 onMounted(() => {
   
@@ -258,8 +266,6 @@ const makeGroupByGroup = async () => {
   for (let i = 0; i < GroupNum.value; i++) {
     groups.push([]);
   }
-
-  const memberNum = getEnableMemberLength(firstGradeMembers.value) + getEnableMemberLength(secondGradeMembers.value) + getEnableMemberLength(thirdGradeMembers.value);
 
   const firstGrade = shuffleArray<string>(memberTypeToArray(firstGradeMembers.value));
   const secondGrade = shuffleArray<string>(memberTypeToArray(secondGradeMembers.value));
@@ -356,12 +362,62 @@ const makeGroupByMember = async () => {
   GroupByMember.value = [...groups];
 };
 
+const importMembersData = (event: Event) => {
+  if ((event.target as HTMLInputElement).files === null) {
+    alert("ファイルが選択されていません")
+    return;
+  }
+  const jsonFile = (event.target as HTMLInputElement).files![0];
+
+  if (jsonFile.type !== "application/json") {
+    alert("ファイルの形式が不正です。");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.readAsText(jsonFile);
+
+  reader.onload = () => {
+    try {
+
+      const jsonObj = JSON.parse(reader.result as string);
+      firstGradeMembers.value = jsonObj.firstGrade;
+      secondGradeMembers.value = jsonObj.secondGrade;
+      thirdGradeMembers.value = jsonObj.thirdGrade;
+
+    } catch (e) {
+
+      alert("ファイルが不正です。");
+
+    }
+
+  }
+
+
+
+}
+
+const downloadMembersData = (event: Event) => {
+  const members = {
+    firstGrade: [...firstGradeMembers.value],
+    secondGrade: [...secondGradeMembers.value],
+    thirdGrade: [...thirdGradeMembers.value]
+  }
+
+  const formattedMembers = JSON.stringify(members, null, "\t");
+
+  const fileData = new Blob([formattedMembers], { type: "application/json" });
+
+  (event.target as HTMLAnchorElement).href = window.URL.createObjectURL(fileData);
+
+}
 </script>
 
 <style>
 html, body, #app {
   width: 100%;
-  height: 100%;
+  height: fit-content;
 }
 
 * {
@@ -371,10 +427,12 @@ html, body, #app {
 </style>
 
 <style scoped lang="scss">
+
+$bs-blue: var(--bs-primary);
 div.container {
   margin: 0 auto;
   width: 80%;
-  height: 100%;
+  height: 100%; 
   text-align: center;
 
   .title {
@@ -467,7 +525,8 @@ div.container {
             width: 100%;
 
             td {
-              border: dotted 0.5px black;
+              border: solid 0.5px #c3c3c3;
+              border-left: none;
             }
 
           }
@@ -504,6 +563,33 @@ div.container {
 
 .btn:hover {
   color:#767676;
+}
+
+div.jsonio {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  a {
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: $bs-blue;
+    border-radius: 5px;
+    padding: 3px 3px;
+    margin-left: .5em;
+  }
+
+  label {
+    color: #ffffff;
+    background-color: $bs-blue;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 3px 3px;
+  }
+
+  label > input {
+    display: none;
+  }
 }
 
 </style>

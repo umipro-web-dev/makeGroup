@@ -21,7 +21,6 @@ footer {
     flex-wrap: wrap;
     padding-top: 1em;
     padding-bottom: 1em;
-    margin-top: 80em;
 }
 
 footer.light {
