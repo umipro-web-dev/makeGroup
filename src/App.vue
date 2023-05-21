@@ -3,14 +3,20 @@
   <h2 class="title mb-4 main">グループ分け</h2>
   <p class="text mb-5">公正なグループ分けに。</p>
   <h class="title">メンバーを追加</h>
-  <div class="jsonio mt-4">
+  <div class="menu mt-5">
     <label for="import" class="importLabel">
       データを読み込む
     <input type="file" class="import" accept="application/json" @change="importMembersData($event)" id="import">
     </label>
     <a href="#" class="export" download="member_data.json" @click="downloadMembersData($event)">データをダウンロードする</a>
+    <button class="btn btn-primary" @click="enableAllMembers">
+      全生徒を有効化
+    </button>
+    <button class="btn btn-primary" @click="disableAllMembers">
+      全生徒を無効化
+    </button>
   </div>
-  <div class="add-member mt-4">
+  <div class="add-member mt-5">
     <div class="grade-one">
       <h4 class="mb-2">一学年</h4>
       <input type="text" class="first" v-model="firstGradeInput" @keydown.enter="addMember(1)"/>
@@ -123,11 +129,10 @@
 
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect, onMounted } from "vue";
+import { ref, watch, watchEffect, onMounted, computed } from "vue";
 import { sleep } from "sleep-ts";
 import { useCookies } from "vue3-cookies";
 import { Base64 } from "js-base64";
-import getEnableMemberLength from "@/utils/getEnabledMemberLength";
 import memberTypeToArray from "@/utils/memberTypeToArray";
 import shuffleArray from "@/utils/shuffleArray";
 import AuthorDescription from "@/components/AuthorDescription.vue";
@@ -142,6 +147,12 @@ interface memberType {
   value: string,
   status: boolean
 }
+
+const isProd = computed(() => {
+  const host = window.location.hostname;
+  const prodReg = /^.+\.vercel\.app$/;
+  return prodReg.test(host);
+});
 
 type gradeType = 1 | 2 | 3;
 
@@ -176,12 +187,16 @@ watchEffect(() => {
 
   cookies.remove("members", "/");
 
-  cookies.set("members", encodedMembers, new Date(now.getFullYear() + 10, 1, 19), "/", undefined, false, "strict");
+  cookies.set("members", encodedMembers, new Date(now.getFullYear() + 10, 1, 19), "/", undefined, isProd.value, "strict");
 
 });
 
 
 onMounted(() => {
+
+  const membersCookie = cookies.get("members");
+
+  if (!membersCookie) return;
   
   const membersArr: memberType[][] = JSON.parse(Base64.decode(cookies.get("members")));
   
@@ -412,6 +427,59 @@ const downloadMembersData = (event: Event) => {
   (event.target as HTMLAnchorElement).href = window.URL.createObjectURL(fileData);
 
 }
+
+const enableAllMembers = () => {
+
+  firstGradeMembers.value = firstGradeMembers.value.map(({ value }) => {
+    return {
+      value,
+      status: true
+    }
+  });
+
+  secondGradeMembers.value = secondGradeMembers.value.map(({ value }) => {
+    return {
+      value,
+      status: true
+    }
+  });
+
+  thirdGradeMembers.value = thirdGradeMembers.value.map(({ value }) => {
+    return {
+      value,
+      status: true
+    }
+  });
+
+
+}
+
+const disableAllMembers = () => {
+
+  firstGradeMembers.value = firstGradeMembers.value.map(({ value }) => {
+    return {
+      value,
+      status: false
+    }
+  });
+
+  secondGradeMembers.value = secondGradeMembers.value.map(({ value }) => {
+    return {
+      value,
+      status: false
+    }
+  });
+
+  thirdGradeMembers.value = thirdGradeMembers.value.map(({ value }) => {
+    return {
+      value,
+      status: false
+    }
+  });
+
+
+}
+
 </script>
 
 <style>
@@ -421,7 +489,7 @@ html, body, #app {
 }
 
 * {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif!important;
 }
 
 </style>
@@ -527,6 +595,7 @@ div.container {
             td {
               border: solid 0.5px #c3c3c3;
               border-left: none;
+              padding: 0 0.5em;
             }
 
           }
@@ -544,7 +613,7 @@ div.container {
 
 .disable {
   color: #adadad;
-  text-decoration: line-through #adadad 1px;
+  text-decoration: line-through #adadad 1.5px;
 }
 
 .center {
@@ -565,31 +634,62 @@ div.container {
   color:#767676;
 }
 
-div.jsonio {
-  display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  a {
-    display: block;
-    text-decoration: none;
-    color: #ffffff;
-    background-color: $bs-blue;
-    border-radius: 5px;
-    padding: 3px 3px;
-    margin-left: .5em;
+
+  div.menu {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: solid 1px #656565;
+    border-radius: 10px;
+    padding: 1em;
+    box-sizing: content-box;
+    
+
+    &::before {
+      content: "メニュー";
+      display: inline;
+      height: fit-content;
+      background-color: #ffffff;
+      padding: 0 0.5em;
+      position: relative;
+      bottom: 1.8em;
+      right: 2em;
+    }
+
+    a {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: $bs-blue;
+      border-radius: 5px;
+      padding: 3px 3px;
+    }
+
+    label {
+      color: #ffffff;
+      background-color: $bs-blue;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 3px 3px;
+    }
+
+    label > input {
+      display: none;
+    }
+
+    button {
+      padding: 3px;
+    }
+
+    * {
+      margin-right: 1em;
+    }
+
+    &:nth-child(3n) {
+      margin-right: 2em;
+    }
+    
   }
 
-  label {
-    color: #ffffff;
-    background-color: $bs-blue;
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 3px 3px;
-  }
-
-  label > input {
-    display: none;
-  }
-}
 
 </style>

@@ -1,4 +1,7 @@
-import { memberType } from "./getEnabledMemberLength";
+interface memberType {
+    value: string,
+    status: boolean
+}
 
 const memberTypeToArray = (src: memberType[]) => {
     const array: string[] = []
