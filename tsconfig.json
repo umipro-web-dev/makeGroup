@@ -17,7 +17,8 @@
       "@/*": ["./src/*"],
       "@/": ["./src/"]
     },
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "noImplicitAny": false
   },
   "include": [
     "./test/**/*"
