@@ -1,51 +1,51 @@
 <template>
   <div class="container">
-  <h2 class="title mb-4 main">グループ分け</h2>
-  <p class="text mb-5">公正なグループ分けに。</p>
-  <h class="title">メンバーを追加</h>
-  <div class="menu mt-5">
-    <label for="import" class="importLabel">
-      データを読み込む
-    <input type="file" class="import" accept="application/json" @change="importMembersData($event)" id="import">
-    </label>
-    <a href="#" class="export" download="member_data.json" @click="downloadMembersData($event)">データをダウンロードする</a>
-    <button class="btn btn-primary enable-all-members" @click="enableAllMembers">
-      全生徒を有効化
-    </button>
-    <button class="btn btn-primary disable-all-members" @click="disableAllMembers">
-      全生徒を無効化
-    </button>
-  </div>
-  <div class="add-member mt-5">
-    <div class="grade-one">
-      <h4 class="mb-2">一学年</h4>
-      <input type="text" class="first" v-model="firstGradeInput" @keydown.enter="addMember(1)"/>
-      <button class="firstRegister btn btn-primary" @click="addMember(1)">追加</button>
-      <br>
-      <table>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>氏名</th>
-            <th>有効化</th>
-            <th>削除する</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(i, index) in firstGradeMembers" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td :class="i.status ? '' : 'disable'">{{ i.value }}</td>
-            <td><input type="checkbox" :checked="i.status" @input="toggleStatus($event, 1, index)"/></td>
-            <td><button class="btn" @click="popMember(1, index)">×</button></td>
-          </tr>
-        </tbody>
-      </table>
+    <h2 class="title mb-4 main">グループ分け</h2>
+    <p class="text mb-5">公正なグループ分けに。</p>
+    <h class="title">メンバーを追加</h>
+    <div class="menu mt-5">
+      <label for="import" class="importLabel">
+        データを読み込む
+        <input type="file" class="import" accept="application/json" @change="importMembersData($event)" id="import">
+      </label>
+      <a href="#" class="export" download="member_data.json" @click="downloadMembersData($event)">データをダウンロードする</a>
+      <button class="btn btn-primary enable-all-members" @click="enableAllMembers">
+        全生徒を有効化
+      </button>
+      <button class="btn btn-primary disable-all-members" @click="disableAllMembers">
+        全生徒を無効化
+      </button>
     </div>
-    <div class="grade-two">
-      <h4 class="mb-2">二学年</h4>
-      <input type="text" class="second" v-model="secondGradeInput" @keydown.enter="addMember(2)"/>
-      <button class="secondRegister btn btn-primary" @click="addMember(2)">追加</button>
-      <table>
+    <div class="add-member mt-5">
+      <div class="grade-one">
+        <h4 class="mb-2">一学年</h4>
+        <input type="text" class="first" v-model="firstGradeInput" @keydown.enter="addMember(1)" />
+        <button class="firstRegister btn btn-primary" @click="addMember(1)">追加</button>
+        <br>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>氏名</th>
+              <th>有効化</th>
+              <th>削除する</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(i, index) in firstGradeMembers" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td :class="i.status ? '' : 'disable'">{{ i.value }}</td>
+              <td><input type="checkbox" :checked="i.status" @input="toggleStatus($event, 1, index)" /></td>
+              <td><button class="btn" @click="popMember(1, index)">×</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grade-two">
+        <h4 class="mb-2">二学年</h4>
+        <input type="text" class="second" v-model="secondGradeInput" @keydown.enter="addMember(2)" />
+        <button class="secondRegister btn btn-primary" @click="addMember(2)">追加</button>
+        <table>
           <thead>
             <tr>
               <th>id</th>
@@ -58,17 +58,17 @@
             <tr v-for="(i, index) in secondGradeMembers" :key="index">
               <td>{{ index + 1 }}</td>
               <td :class="i.status ? '' : 'disable'">{{ i.value }}</td>
-              <td><input type="checkbox" :checked="i.status" @input="toggleStatus($event, 2, index)"/></td>
+              <td><input type="checkbox" :checked="i.status" @input="toggleStatus($event, 2, index)" /></td>
               <td><button class="btn" @click="popMember(2, index)">×</button></td>
             </tr>
           </tbody>
         </table>
-    </div>
-    <div class="grade-three">
-      <h4 class="mb-2">三学年</h4>
-      <input type="text" class="third" v-model="thirdGradeInput" @keydown.enter="addMember(3)"/>
-      <button class="thirdRegister btn btn-primary" @click="addMember(3)">追加</button>
-      <table>
+      </div>
+      <div class="grade-three">
+        <h4 class="mb-2">三学年</h4>
+        <input type="text" class="third" v-model="thirdGradeInput" @keydown.enter="addMember(3)" />
+        <button class="thirdRegister btn btn-primary" @click="addMember(3)">追加</button>
+        <table>
           <thead>
             <tr>
               <th>id</th>
@@ -81,49 +81,49 @@
             <tr v-for="(i, index) in thirdGradeMembers" :key="index">
               <td>{{ index + 1 }}</td>
               <td :class="i.status ? '' : 'disable'">{{ i.value }}</td>
-              <td><input type="checkbox" :checked="i.status" @input="toggleStatus($event, 3, index)"/></td>
+              <td><input type="checkbox" :checked="i.status" @input="toggleStatus($event, 3, index)" /></td>
               <td><button class="btn" @click="popMember(3, index)">×</button></td>
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
-  </div>
-  <p class="title mb-5">グループ分けを実行する</p>
-  <div class="makeGroup mb-5">
+    <p class="title mb-5">グループ分けを実行する</p>
+    <div class="makeGroup mb-5">
 
-    <div class="makeGroupByGroupNum">
-      <p>グループ数で分ける</p>
-      <input type="number" v-model="GroupNum" @keydown.enter="makeGroupByGroup"/>
-      <button class="btn btn-primary" @click="makeGroupByGroup">実行</button>
-      <table class="group">
-        <tbody>
-          <tr v-for="(i, index) in GroupByGroup" :key="index">
-            <td>({{ index + 1  }})</td>
-            <div class="members">
-            <td v-for="(i2, index2) in i" :key="index2">{{ i2 }}</td>
-            </div>
-          </tr>          
-        </tbody>
-      </table>
-    </div>
-    <div class="makeGroupByMemberNum">
-      <p>人数で分ける</p>
-      <input type="number" v-model="memberNum" @keydown.enter="makeGroupByMember"/>
-      <button class="btn btn-primary" @click="makeGroupByMember">実行</button>
-      <table class="member">
+      <div class="makeGroupByGroupNum">
+        <p>グループ数で分ける</p>
+        <input type="number" v-model="GroupNum" @keydown.enter="makeGroupByGroup" />
+        <button class="btn btn-primary" @click="makeGroupByGroup">実行</button>
+        <table class="group">
           <tbody>
-          <tr v-for="(i, index) in GroupByMember" :key="index">
-            <td>({{ index + 1  }})</td>
-            <div class="members">
-            <td v-for="(i2, index2) in i" :key="index2">{{ i2 }}</td>
-            </div>
-          </tr>
+            <tr v-for="(i, index) in GroupByGroup" :key="index">
+              <td>({{ index + 1 }})</td>
+              <div class="members">
+                <td v-for="(i2, index2) in i" :key="index2">{{ i2 }}</td>
+              </div>
+            </tr>
           </tbody>
-      </table>
+        </table>
+      </div>
+      <div class="makeGroupByMemberNum">
+        <p>人数で分ける</p>
+        <input type="number" v-model="memberNum" @keydown.enter="makeGroupByMember" />
+        <button class="btn btn-primary" @click="makeGroupByMember">実行</button>
+        <table class="member">
+          <tbody>
+            <tr v-for="(i, index) in GroupByMember" :key="index">
+              <td>({{ index + 1 }})</td>
+              <div class="members">
+                <td v-for="(i2, index2) in i" :key="index2">{{ i2 }}</td>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-  </div>
-  <AuthorDescription/>
+  <AuthorDescription />
 </template>
 
 
@@ -196,9 +196,9 @@ onMounted(() => {
   const membersCookie = cookies.get("members");
 
   if (!membersCookie) return;
-  
+
   const membersArr: memberType[][] = JSON.parse(Base64.decode(cookies.get("members")));
-  
+
   firstGradeMembers.value = membersArr[0];
 
   secondGradeMembers.value = membersArr[1];
@@ -238,7 +238,7 @@ const addMember = (grade: gradeType) => {
 }
 
 
-const toggleStatus = (event: Event, grade: gradeType, index: number) => { 
+const toggleStatus = (event: Event, grade: gradeType, index: number) => {
   switch (grade) {
     case 1:
       firstGradeMembers.value[index].status = (event.target as HTMLInputElement).checked;
@@ -255,7 +255,7 @@ const toggleStatus = (event: Event, grade: gradeType, index: number) => {
 }
 
 const popMember = (grade: gradeType, index: number) => {
-  switch(grade) {
+  switch (grade) {
     case 1:
       firstGradeMembers.value.splice(index, 1);
       break;
@@ -482,28 +482,29 @@ const disableAllMembers = () => {
 </script>
 
 <style>
-html, body, #app {
+html,
+body,
+#app {
   width: 100%;
   height: fit-content;
 }
 
 * {
-  font-family: Arial, Helvetica, sans-serif!important;
+  font-family: Arial, Helvetica, sans-serif !important;
 }
-
 </style>
 
 <style scoped lang="scss">
-
 $bs-blue: var(--bs-primary);
+
 div.container {
   margin: 0 auto;
   width: 80%;
-  height: 100%; 
+  height: 100%;
   text-align: center;
 
   .title {
-    font-size:1.8em;
+    font-size: 1.8em;
   }
 
   div.add-member {
@@ -520,10 +521,10 @@ div.container {
       font-size: 0.8em;
       padding: 0;
       border: none;
-      
+
     }
 
-    & > div {
+    &>div {
       width: 33%;
       height: 100%;
     }
@@ -540,7 +541,7 @@ div.container {
         height: 0.5em;
       }
 
-      thead > tr > th {
+      thead>tr>th {
         font-size: 0.7em;
         padding: 0.6em 0;
       }
@@ -553,7 +554,8 @@ div.container {
         }
       }
 
-      th, td {
+      th,
+      td {
         text-align: center;
       }
 
@@ -572,6 +574,7 @@ div.container {
 
     div {
       width: 50%;
+
       table {
         margin: 0 auto;
         margin-top: 2em;
@@ -599,7 +602,7 @@ div.container {
 
           }
 
-           td:nth-child(1) {
+          td:nth-child(1) {
             border: solid 1px black;
           }
 
@@ -618,6 +621,7 @@ div.container {
 .center {
   text-align: center;
 }
+
 .title {
   border-bottom: solid 2px #c67070;
   width: fit-content;
@@ -630,65 +634,63 @@ div.container {
 }
 
 .btn:hover {
-  color:#767676;
+  color: #767676;
 }
 
 
-  div.menu {
+div.menu {
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    border: solid 1px #656565;
-    border-radius: 10px;
-    padding: 1em;
-    box-sizing: content-box;
-    
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: solid 1px #656565;
+  border-radius: 10px;
+  padding: 1em;
+  box-sizing: content-box;
 
-    &::before {
-      content: "メニュー";
-      display: inline;
-      height: fit-content;
-      background-color: #ffffff;
-      padding: 0 0.5em;
-      position: relative;
-      bottom: 1.8em;
-      right: 2em;
-    }
 
-    a {
-      text-decoration: none;
-      color: #ffffff;
-      background-color: $bs-blue;
-      border-radius: 5px;
-      padding: 3px 3px;
-    }
-
-    label {
-      color: #ffffff;
-      background-color: $bs-blue;
-      cursor: pointer;
-      border-radius: 5px;
-      padding: 3px 3px;
-    }
-
-    label > input {
-      display: none;
-    }
-
-    button {
-      padding: 3px;
-    }
-
-    * {
-      margin-right: 1em;
-    }
-
-    &:nth-child(3n) {
-      margin-right: 2em;
-    }
-    
+  &::before {
+    content: "メニュー";
+    display: inline;
+    height: fit-content;
+    background-color: #ffffff;
+    padding: 0 0.5em;
+    position: relative;
+    bottom: 1.8em;
+    right: 2em;
   }
 
+  a {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: $bs-blue;
+    border-radius: 5px;
+    padding: 3px 3px;
+  }
 
+  label {
+    color: #ffffff;
+    background-color: $bs-blue;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 3px 3px;
+  }
+
+  label>input {
+    display: none;
+  }
+
+  button {
+    padding: 3px;
+  }
+
+  * {
+    margin-right: 1em;
+  }
+
+  &:nth-child(3n) {
+    margin-right: 2em;
+  }
+
+}
 </style>
