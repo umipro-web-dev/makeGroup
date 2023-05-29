@@ -643,6 +643,8 @@ div.container {
 
 div.menu {
 
+  $transition-sec: 0.2s;
+
   display: flex;
   position: relative;
   width: 80%;
@@ -678,9 +680,9 @@ div.menu {
       color: #848484;
       border-color: #0b5ed7;
       background-color: #0b5ed7;
-      transition: 0.1s;
+      transition: $transition-sec;
     }
-    
+
   }
 
   label {
@@ -694,7 +696,7 @@ div.menu {
       color: #848484;
       border-color: #0b5ed7;
       background-color: #0b5ed7;
-      transition: 0.1s;
+      transition: $transition-sec;
     }
 
   }
