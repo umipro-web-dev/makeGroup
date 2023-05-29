@@ -496,7 +496,9 @@ body,
 </style>
 
 <style scoped lang="scss">
+
 $bs-blue: var(--bs-primary);
+$bs-btn-hover: var(--bs-btn-hover-bg);
 
 div.container {
   margin: 0 auto;
@@ -641,8 +643,12 @@ div.container {
 
 div.menu {
 
+  $transition-sec: 0.2s;
+
   display: flex;
   position: relative;
+  width: 80%;
+  margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
   border: solid 1px #656565;
@@ -660,7 +666,7 @@ div.menu {
     position: absolute;
     z-index: 100;
     left: 11px;
-    bottom: 3.2em;
+    bottom: 4.3vw;
   }
 
   a {
@@ -669,6 +675,14 @@ div.menu {
     background-color: $bs-blue;
     border-radius: 5px;
     padding: 3px 3px;
+
+    &:hover {
+      color: #848484;
+      border-color: #0b5ed7;
+      background-color: #0b5ed7;
+      transition: $transition-sec;
+    }
+
   }
 
   label {
@@ -677,6 +691,14 @@ div.menu {
     cursor: pointer;
     border-radius: 5px;
     padding: 3px 3px;
+
+    &:hover {
+      color: #848484;
+      border-color: #0b5ed7;
+      background-color: #0b5ed7;
+      transition: $transition-sec;
+    }
+
   }
 
   label>input {
@@ -689,6 +711,9 @@ div.menu {
 
   * {
     margin-right: 1em;
+    font-size: 1.2vw;
+
+    
   }
 
   &:nth-child(3n) {
