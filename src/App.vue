@@ -642,6 +642,7 @@ div.container {
 div.menu {
 
   display: flex;
+  position: relative;
   flex-wrap: wrap;
   justify-content: center;
   border: solid 1px #656565;
@@ -656,9 +657,10 @@ div.menu {
     height: fit-content;
     background-color: #ffffff;
     padding: 0 0.5em;
-    position: relative;
-    bottom: 1.8em;
-    right: 2em;
+    position: absolute;
+    z-index: 100;
+    left: 11px;
+    bottom: 3.2em;
   }
 
   a {
