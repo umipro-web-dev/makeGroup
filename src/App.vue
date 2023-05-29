@@ -496,7 +496,9 @@ body,
 </style>
 
 <style scoped lang="scss">
+
 $bs-blue: var(--bs-primary);
+$bs-btn-hover: var(--bs-btn-hover-bg);
 
 div.container {
   margin: 0 auto;
@@ -671,6 +673,14 @@ div.menu {
     background-color: $bs-blue;
     border-radius: 5px;
     padding: 3px 3px;
+
+    &:hover {
+      color: #848484;
+      border-color: #0b5ed7;
+      background-color: #0b5ed7;
+      transition: 0.1s;
+    }
+    
   }
 
   label {
@@ -678,7 +688,15 @@ div.menu {
     background-color: $bs-blue;
     cursor: pointer;
     border-radius: 5px;
-    padding: 2px 2px;
+    padding: 3px 3px;
+
+    &:hover {
+      color: #848484;
+      border-color: #0b5ed7;
+      background-color: #0b5ed7;
+      transition: 0.1s;
+    }
+
   }
 
   label>input {
@@ -686,12 +704,14 @@ div.menu {
   }
 
   button {
-    padding: 2px;
+    padding: 3px;
   }
 
   * {
     margin-right: 1em;
-    font-size: 1.3vw;
+    font-size: 1.2vw;
+
+    
   }
 
   &:nth-child(3n) {
