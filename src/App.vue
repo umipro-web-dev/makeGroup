@@ -643,6 +643,8 @@ div.menu {
 
   display: flex;
   position: relative;
+  width: 80%;
+  margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
   border: solid 1px #656565;
@@ -660,7 +662,7 @@ div.menu {
     position: absolute;
     z-index: 100;
     left: 11px;
-    bottom: 3.2em;
+    bottom: 4.3vw;
   }
 
   a {
@@ -676,7 +678,7 @@ div.menu {
     background-color: $bs-blue;
     cursor: pointer;
     border-radius: 5px;
-    padding: 3px 3px;
+    padding: 2px 2px;
   }
 
   label>input {
@@ -684,11 +686,12 @@ div.menu {
   }
 
   button {
-    padding: 3px;
+    padding: 2px;
   }
 
   * {
     margin-right: 1em;
+    font-size: 1.3vw;
   }
 
   &:nth-child(3n) {
