@@ -8,6 +8,7 @@ jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - run: gh pr create --fill -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }}
       
 
