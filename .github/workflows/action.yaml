@@ -4,4 +4,4 @@ jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello" >> $GITHUB_OUTPUT
+      - run: echo "a=ee" >> $GITHUB_OUTPUT
