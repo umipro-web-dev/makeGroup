@@ -1,7 +1,9 @@
 name: auto-pull-request
-on: push
+on: create
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "a=ee" >> $GITHUB_OUTPUT
+      run: gh pr create --fill -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }}
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
