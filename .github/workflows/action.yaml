@@ -1,7 +1,7 @@
 name: auto-pull-request
-on: create
+on: push
 jobs:
-  check-bats-version:
+  create-pull-request:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "this is pen"
+      - run: echo "Hello" >> $GITHUB_OUTPUT
