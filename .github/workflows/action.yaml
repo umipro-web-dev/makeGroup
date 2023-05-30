@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0
       - run: gh pr create --fill -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }}
       
 
