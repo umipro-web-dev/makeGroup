@@ -5,5 +5,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: gh pr create --fill -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }}
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
