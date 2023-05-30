@@ -1,9 +1,13 @@
 name: auto-pull-request
 on: create
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BASE_BRANCH: master
+  REVIEWER: umipro-web-dev
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     steps:
       - run: gh pr create --fill -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }}
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+
