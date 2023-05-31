@@ -25,7 +25,7 @@ jobs:
               owner: "${{github.repository_owner}}",
               repo: "${{ github.event.repository.name }}",
               title: commitMsg,
-              base: "${{ github.base_ref }}",
+              base: "${{ github.event.repository.master_branch }}",
               head: currentBranch,
               body: "テスト通るかな"
               });
