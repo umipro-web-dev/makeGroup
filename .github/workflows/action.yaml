@@ -18,7 +18,17 @@ jobs:
                 commit_sha: "${{github.sha}}"
               })
 
-            console.log(commitObj);
+            const commitMsg = commitObj.data.message;
+            const currentBranch = "${{ github.event.ref }}"
+
+            github.pulls.create({
+              owner: "${{github.repository_owner}}",
+              repo: "${{ github.event.repository.name }}",
+              title: commitMsg,
+              base: "${{ github.base_ref }}",
+              head: currentBranch,
+              body: "テスト通るかな"
+              });
             
 
       
