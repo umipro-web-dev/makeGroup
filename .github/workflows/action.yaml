@@ -12,6 +12,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+
             const commitObj = await github.git.getCommit({
                 owner: "${{ github.repository_owner }}",
                 repo: "${{ github.event.repository.name }}",
@@ -21,13 +22,26 @@ jobs:
             const commitMsg = commitObj.data.message;
             const currentBranch = "${{ github.event.ref }}"
 
-            github.pulls.create({
+            // base-> マージ先のブランチ
+            // head-> マージ元のブランチ
+            await github.pulls.create({
               owner: "${{github.repository_owner}}",
               repo: "${{ github.event.repository.name }}",
               title: commitMsg,
               base: "${{ env.BASE_BRANCH }}",
               head: currentBranch,
               body: "テスト通るかな"
+              })
+
+            const pulls = await github.pulls.list({
+              owner: "${{ github.repository_owner }}",
+              repo: "${{ github.event.repository.name }}"
+              });
+
+            await github.pulls.requestReviewers({
+              owner: "${{ github.repository_owner }}",
+              repo: "${{ github.event.repository.name }}",
+              pull_number: pulls[0].number
               });
             
 
