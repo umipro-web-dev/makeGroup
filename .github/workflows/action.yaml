@@ -12,7 +12,13 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(github);
+            const commitObj = github.git.getCommit({
+                owner: ${{github.event.repository.owner}},
+                repo: ${{ github.event.repository.name }},
+                commit_sha: ${{github.sha}}
+              })
+
+            console.log(commitObj);
             
 
       
