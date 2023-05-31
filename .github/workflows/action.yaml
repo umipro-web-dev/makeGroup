@@ -8,10 +8,18 @@ jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with: 
-          fetch-depth: 0
-      - run: eval ${{ toJson(github) }}
-      - run: gh pr create -t ${{ github.event.head_commit.message }} -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }} -b テストが通りますように -a @me
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const commitMsg = github.rest.git.getCommit({
+                owner: "umipro-web-dev",
+                repo: "makeGroup",
+                commmit_sha: ${{ github.sha}}
+              })
+
+            console.log(commitMsg);
+            
+
       
 
