@@ -38,12 +38,10 @@ jobs:
               repo: "${{ github.event.repository.name }}"
               });
 
-              console.log(pulls);
-
             await github.pulls.requestReviewers({
               owner: "${{ github.repository_owner }}",
               repo: "${{ github.event.repository.name }}",
-              pull_number: pulls[0].number,
+              pull_number: pulls.data[0].number,
               reviewers: ["${{github.repository_owner}}"]
               });
             
