@@ -12,13 +12,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const commitMsg = github.rest.git.getCommit({
-                owner: "umipro-web-dev",
-                repo: "makeGroup",
-                commmit_sha: ${{ github.sha}}
-              })
-
-            console.log(commitMsg);
+            console.log(github.rest);
             
 
       
