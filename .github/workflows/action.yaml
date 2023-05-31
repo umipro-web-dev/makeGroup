@@ -12,7 +12,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(${{ github.event.repository }})
+            console.log(${{ github.repository_owner }})
             const commitObj = await github.git.getCommit({
                 owner: "${{github.event.repository.owner.name}}",
                 repo: "${{ github.event.repository.name }}",
