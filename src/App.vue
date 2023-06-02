@@ -1,3 +1,17 @@
+<!--
+
+ __  __       _         ____                       
+|  \/  | __ _| | _____ / ___|_ __ ___  _   _ _ __  
+| |\/| |/ _` | |/ / _ \ |  _| '__/ _ \| | | | '_ \ 
+| |  | | (_| |   <  __/ |_| | | | (_) | |_| | |_) |
+|_|  |_|\__,_|_|\_\___|\____|_|  \___/ \__,_| .__/ 
+                                            |_| 
+
+This AA was created by figlet.
+
+-->
+
+
 <template>
   <div class="container">
     <h2 class="title mb-4 main">グループ分け</h2>
@@ -428,6 +442,7 @@ const downloadMembersData = (event: Event) => {
 
 }
 
+
 const enableAllMembers = () => {
 
   firstGradeMembers.value = firstGradeMembers.value.map(({ value }) => {
@@ -500,6 +515,7 @@ body,
 $bs-blue: var(--bs-primary);
 $bs-btn-hover: var(--bs-btn-hover-bg);
 
+
 div.container {
   margin: 0 auto;
   width: 80%;
@@ -515,7 +531,7 @@ div.container {
     justify-content: center;
     flex-wrap: wrap;
     height: fit-content;
-    min-height: 70%;
+    min-height: 70vh;
     margin-bottom: 2em;
 
     button {
@@ -573,7 +589,8 @@ div.container {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    height: 40%;
+    height: fit-content;
+    min-height: 60vh;
 
     div {
       width: 50%;
@@ -721,4 +738,5 @@ div.menu {
   }
 
 }
+
 </style>
