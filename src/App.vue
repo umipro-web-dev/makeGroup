@@ -230,6 +230,7 @@ const addMember = (grade: gradeType) => {
         value: firstGradeInput.value,
         status: true
       });
+      firstGradeInput.value = "";
       break;
     case 2:
       if (!secondGradeInput.value) break;
@@ -237,6 +238,7 @@ const addMember = (grade: gradeType) => {
         value: secondGradeInput.value,
         status: true
       });
+      secondGradeInput.value = "";
       break;
     case 3:
       if (!thirdGradeInput.value) break;
@@ -244,6 +246,7 @@ const addMember = (grade: gradeType) => {
         value: thirdGradeInput.value,
         status: true
       });
+      thirdGradeInput.value = "";
       break;
     default:
       return;
