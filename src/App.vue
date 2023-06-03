@@ -204,7 +204,7 @@ watchEffect(() => {
 });
 
 
-onMounted(() => {
+onMounted(async () => {
 
   const membersCookie = cookies.get("members");
 
