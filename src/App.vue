@@ -567,9 +567,15 @@ div.container {
       tbody {
         height: 2vw;
 
+        tr {
+          border-bottom: solid #949494 .99px;
+        }
+
         td {
           font-size: 1.5vw;
+
         }
+
       }
 
       th,
