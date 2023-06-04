@@ -39,7 +39,7 @@ npm run dev
 npm run build
 ```
 
-### upload to your own git repository
+### Upload to your own git repository
 
 ```sh
 npm run deploy
