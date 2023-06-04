@@ -1,0 +1,31 @@
+name: auto-req-review
+on: push
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BASE_BRANCH: master
+  REVIEWER: umipro-web-dev
+jobs:
+  auto-req-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+
+            const pulls = await github.pulls.list({
+              owner: "${{ github.repository_owner }}",
+              repo: "${{ github.event.repository.name }}"
+              });
+
+            await github.pulls.requestReviewers({
+              owner: "${{ github.repository_owner }}",
+              repo: "${{ github.event.repository.name }}",
+              pull_number: pulls.data[0].number,
+              reviewers: ["${{github.repository_owner}}"]
+              });
+            
+
+
+      
+

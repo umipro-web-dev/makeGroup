@@ -2,6 +2,7 @@
     <footer class="light">
         <div class="src">
                 <h>ソースコードは<a href="https://github.com/umipro-web-dev/makeGroup" target="_blank" rel="noopener noreferrer">こちら</a></h>
+                <h class="last-updated-date">最終更新日: {{ LastUpdatedDate }}</h>
         </div>
         <span class="author">
             <h>作者：umipro-web</h>
@@ -14,6 +15,18 @@
         
     </footer>
 </template>
+
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
+const LastUpdatedDate = ref("");
+
+onMounted(async () => {
+    const res = await fetch("lastUpdatedDate.txt");
+    LastUpdatedDate.value = await res.text();
+})
+
+</script>
 
 <style scoped lang="scss">
 footer {
@@ -35,10 +48,15 @@ h {
     font-size: 14px;
 }
 
-$by-margin: 9px;
+$by-margin: 5px;
 
 .src {
     margin-top: $by-margin;
+    
+    .last-updated-date {
+        margin-top: $by-margin + 3px;
+        display: block;
+    }
 }
 
 .author {

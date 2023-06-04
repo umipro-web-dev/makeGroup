@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "test": "vitest run"
+    "test": "vitest run",
+    "deploy": "./deploy.sh"
   },
   "dependencies": {
     "@types/jest": "^29.5.1",
@@ -27,6 +28,7 @@
     "@vue/test-utils": "^2.3.2",
     "@vue/tsconfig": "^0.4.0",
     "npm-run-all": "^4.1.5",
+    "ts-node": "^10.9.1",
     "typescript": "~5.0.4",
     "vite": "^4.3.5",
     "vitest": "^0.31.1",
