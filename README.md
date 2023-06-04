@@ -38,3 +38,9 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Upload to your own git repository
+
+```sh
+npm run deploy
+```
