@@ -2,7 +2,7 @@
     <footer class="light">
         <div class="src">
                 <h>ソースコードは<a href="https://github.com/umipro-web-dev/makeGroup" target="_blank" rel="noopener noreferrer">こちら</a></h>
-                <h class="last-updated-date">最終更新日: {{ LastUpdatedDate }}</h>
+                <h class="last-updated-date">最終更新日時: {{ LastUpdatedDate }}</h>
         </div>
         <span class="author">
             <h>作者：umipro-web</h>
@@ -61,7 +61,7 @@ $by-margin: 5px;
 
 .author {
 
-    margin-left: calc(100% - 20em);
+    margin-left: calc(100% - 22em);
 
 
     a {
