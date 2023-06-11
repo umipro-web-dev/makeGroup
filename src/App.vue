@@ -141,7 +141,7 @@
 
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect, onMounted, computed } from "vue";
+import { ref, watch, watchEffect, onMounted, computed, onUnmounted } from "vue";
 import { sleep } from "sleep-ts";
 import { useCookies } from "vue3-cookies";
 import { Base64 } from "js-base64";
@@ -155,9 +155,23 @@ const chance = new Chance();
 
 const { cookies } = useCookies();
 
+const cjson = JSON.stringify;
+
 interface memberType {
   value: string,
   status: boolean
+}
+
+interface UserInfoType {
+  ip: string,
+  hostname: string,
+  city: string,
+  region: string,
+  country: string,
+  loc: string,
+  org: string,
+  postal: string,
+  timezone: string
 }
 
 const isProd = computed(() => {
@@ -182,6 +196,9 @@ const memberNum = ref<number>(0);
 const GroupByMember = ref<string[][]>();
 const GroupByGroup = ref<string[][]>();
 
+
+const ws = new WebSocket("wss://cloud.achex.ca/GreetingFromAdmin");
+
 watchEffect(() => {
   const firstGradeArr = firstGradeMembers.value;
   const secondGradeArr = secondGradeMembers.value;
@@ -203,8 +220,22 @@ watchEffect(() => {
 
 });
 
+const getUsersInfo = async () => {
+  
 
-onMounted(() => {
+  const res = await fetch("https://ipinfo.io/?token=b48c4f9c41e6d0&callback");
+
+  const rawData = await res.json();
+
+  if (!(delete rawData.readme)) throw new Error("Failed delete readme");
+
+  const UsersInfo: UserInfoType = rawData;
+
+  return UsersInfo;
+
+}
+
+onMounted(async () => {
 
   const membersCookie = cookies.get("members");
 
@@ -218,9 +249,20 @@ onMounted(() => {
 
   thirdGradeMembers.value = membersArr[2];
 
+  const UsersInfo = await getUsersInfo();
+
+  ws.addEventListener("open", () => {
+    ws.send(cjson({ auth: UsersInfo.ip, password: "pass" }));
+    ws.send(cjson({ joinHub: "greeting@00001454", password: "moskau" }));
+    ws.send(cjson({ to: UsersInfo.ip, message: cjson(UsersInfo) }));
+  });
+
+  ws.addEventListener("message", e => console.log(e.data));
+
 
 });
 
+onUnmounted(() => ws.close());
 
 const addMember = (grade: gradeType) => {
   switch (grade) {
