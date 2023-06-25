@@ -249,7 +249,7 @@ const addMember = (grade: gradeType) => {
       thirdGradeInput.value = "";
       break;
     default:
-      return;
+      return; 
   }
 }
 
@@ -288,21 +288,23 @@ const popMember = (grade: gradeType, index: number) => {
 
 
 const makeGroupByGroup = async () => {
+  //指定グループ数が0だった場合リターン
   if (GroupNum.value < 1) return;
 
+  //作成されたグループを入れるための二次元配列
+  const groups: string[][] = []
 
-  const groups: string[][] = [];
+  for (let i = 0; i < GroupNum.value; i++) groups.push([]);
 
-  for (let i = 0; i < GroupNum.value; i++) {
-    groups.push([]);
-  }
 
   const firstGrade = shuffleArray<string>(memberTypeToArray(firstGradeMembers.value));
   const secondGrade = shuffleArray<string>(memberTypeToArray(secondGradeMembers.value));
   const thirdGrade = shuffleArray<string>(memberTypeToArray(thirdGradeMembers.value));
 
+  //watchを使うためにref
   let groupIndex = ref(0);
 
+  //参照するグループのインデックスが範囲外になったら元に戻す。
   const unWatch = watch(groupIndex, newVal => {
     if (newVal == GroupNum.value) groupIndex.value = 0;
   });
@@ -336,60 +338,51 @@ const makeGroupByMember = async () => {
 
   if (memberNum.value < 1) return;
 
+  //作成されたグループを入れるための二次元配列
   const groups: string[][] = [];
 
   const firstGrade = shuffleArray<string>(memberTypeToArray(firstGradeMembers.value));
   const secondGrade = shuffleArray<string>(memberTypeToArray(secondGradeMembers.value));
   const thirdGrade = shuffleArray<string>(memberTypeToArray(thirdGradeMembers.value));
+  //全体のメンバー数。
+  const allMembersNumber = firstGrade.length + secondGrade.length + thirdGrade.length;
+  //余ったメンバー分のグループも用意するためにceil。
+  const calcatedGroupNum = Math.ceil(allMembersNumber / memberNum.value);
 
-  if (firstGrade.length + secondGrade.length + thirdGrade.length === 0) return;
+  if (allMembersNumber === 0) return;
 
-  const gradeList = [[...firstGrade], [...secondGrade], [...thirdGrade]];
+  for (let i = 0; i < calcatedGroupNum; i++) groups.push([]);
 
+  let groupIndex = ref(0);
 
-  const mostLongestGradeLength = Math.max(firstGrade.length, secondGrade.length, thirdGrade.length);
-
-  let index = ref(chance.integer({ min: 0, max: 2 }) as number);
-
-  const startIndex = index.value;
-
-  let gradeIndex = 0;
-
-  let groupIndex = 0;
-
-  let exit = false;
-
-  let push_executed = false;
-
-  const unWatch = watch(index, (newVal) => {
-    if (newVal == 3) index.value = 0;
+  const unWatch = watch(groupIndex, newVal => {
+    if (newVal == calcatedGroupNum) groupIndex.value = 0;
   });
 
-  for (let i = 0; i < 1000000; i++) {
-    if (exit) break;
-    groups.push([]);
-    while (groups[groupIndex].length !== memberNum.value) {
-      await sleep(10);
-      if (startIndex == index.value && push_executed) gradeIndex++;
-      if (gradeIndex == mostLongestGradeLength + 1) {
-        if (groups[groups.length - 1].length == 0) groups.pop();
-        exit = true;
-        break;
-      }
-      if (gradeList[index.value][gradeIndex] === undefined) {
-        index.value++;
-        continue;
-      }
-      groups[groupIndex].push(gradeList[index.value][gradeIndex]);
-      push_executed = true;
-      index.value++;
-    }
-    groupIndex++;
+
+  for (let i = 0; i < firstGrade.length; i++) {
+    await sleep(10);
+    groups[groupIndex.value].push(firstGrade[i]);
+    groupIndex.value++;
+  }
+
+  for (let i = 0; i < secondGrade.length; i++) {
+    await sleep(10);
+    groups[groupIndex.value].push(secondGrade[i]);
+    groupIndex.value++;
+  }
+
+  for (let i = 0; i < thirdGrade.length; i++) {
+    await sleep(10);
+    groups[groupIndex.value].push(thirdGrade[i]);
+    groupIndex.value++;
   }
 
   unWatch();
 
   GroupByMember.value = [...groups];
+  
+
 };
 
 const importMembersData = (event: Event) => {
@@ -436,7 +429,7 @@ const downloadMembersData = (event: Event) => {
   }
 
   const formattedMembers = JSON.stringify(members, null, "\t");
-
+  
   const fileData = new Blob([formattedMembers], { type: "application/json" });
 
   (event.target as HTMLAnchorElement).href = window.URL.createObjectURL(fileData);
